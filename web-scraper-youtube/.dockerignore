@@ -1,0 +1,7 @@
+.venv/
+.git/
+.DS_Store
+__pycache__/
+web-scraper-python/output/
+web-scraper-python/logs/
+web-scraper-python/ui_runs.db

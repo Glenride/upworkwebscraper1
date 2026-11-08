@@ -1,0 +1,45 @@
+app = "CHANGE_ME_APP_NAME"
+primary_region = "iad"
+kill_signal = "SIGINT"
+kill_timeout = 5
+
+[build]
+  dockerfile = "web-scraper-python/docker/Dockerfile"
+
+[env]
+  PORT = "8000"
+  SCRAPER_OUTPUT_ROOT = "/data/output"
+  SCRAPER_LOGS_ROOT = "/data/logs"
+  SCRAPER_UI_DB_PATH = "/data/ui_runs.db"
+  SCRAPER_TEMPLATES_ROOT = "web-scraper-python/api/templates"
+
+[[mounts]]
+  source = "scraper_data"
+  destination = "/data"
+
+[[services]]
+  http_checks = []
+  internal_port = 8000
+  processes = ["app"]
+
+  [[services.ports]]
+    handlers = ["http"]
+    port = 80
+  [[services.ports]]
+    handlers = ["tls", "http"]
+    port = 443
+
+  [[services.tcp_checks]]
+    port = 8000
+    interval = "15s"
+    timeout = "2s"
+
+  [[services.http_checks]]
+    path = "/healthz"
+    method = "get"
+    interval = "30s"
+    timeout = "3s"
+
+[metrics]
+  port = 8000
+  path = "/healthz"

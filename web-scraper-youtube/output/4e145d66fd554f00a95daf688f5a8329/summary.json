@@ -1,0 +1,14 @@
+{
+  "success_count": 1,
+  "failure_count": 0,
+  "items": [
+    {
+      "url": "https://www.walmart.com/ip/PETSCOSSET-Outdoor-Cat-House-Weatherproof-Wooden-Cat-Shelter-with-Openable-Roof-for-Small-Animals/17186706535?athAsset=eyJhdGhjcGlkIjoiMTcxODY3MDY1MzUiLCJhdGhzdGlkIjoiQ1MwMjAiLCJhdGhhbmNpZCI6Ikl0ZW1DYXJvdXNlbCIsImF0aHJrIjowLjB9&athena=true",
+      "status": "succeeded",
+      "screenshot_path": "screenshots/www-walmart-com-1.png",
+      "text_path": "text/www-walmart-com-1.txt",
+      "text_excerpt": "Robot or human? Activate and hold the button to confirm that you\u2019re human. Thank You! Terms of Use Privacy Policy Do Not Sell My Personal Information Request My Personal Information \u00a92025 Walmart Stores, Inc.",
+      "error": null
+    }
+  ]
+}

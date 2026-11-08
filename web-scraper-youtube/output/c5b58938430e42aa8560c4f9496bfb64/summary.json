@@ -1,0 +1,14 @@
+{
+  "success_count": 0,
+  "failure_count": 1,
+  "items": [
+    {
+      "url": "https://www.kroger.com/p/tide-original-scent-liquid-laundry-detergent/0003077212104?fulfillment=PICKUP",
+      "status": "failed",
+      "screenshot_path": null,
+      "text_path": null,
+      "text_excerpt": null,
+      "error": "Page.goto: net::ERR_HTTP2_PROTOCOL_ERROR at https://www.kroger.com/p/tide-original-scent-liquid-laundry-detergent/0003077212104?fulfillment=PICKUP\nCall log:\n  - navigating to \"https://www.kroger.com/p/tide-original-scent-liquid-laundry-detergent/0003077212104?fulfillment=PICKUP\", waiting until \"networkidle\"\n"
+    }
+  ]
+}

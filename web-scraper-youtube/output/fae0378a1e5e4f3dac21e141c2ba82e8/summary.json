@@ -1,0 +1,14 @@
+{
+  "success_count": 0,
+  "failure_count": 1,
+  "items": [
+    {
+      "url": "https://www.amazon.com/TP-Link-Extender-RE715X-Repeater-Compatible/dp/B0B8BVY12V?ref=dlx_14777_dg_dcl_B0B8BVY12V_dt_mese7_5e_pi&pf_rd_r=TCWTR1M1SGHEESET6M6B&pf_rd_p=d518a36f-4cd8-436b-b9dd-e041ebaa255e&th=1",
+      "status": "failed",
+      "screenshot_path": null,
+      "text_path": null,
+      "text_excerpt": null,
+      "error": "Timed out loading page"
+    }
+  ]
+}

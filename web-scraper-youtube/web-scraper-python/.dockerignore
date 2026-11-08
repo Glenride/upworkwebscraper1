@@ -1,0 +1,22 @@
+# Python build artifacts
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtualenvs
+.venv/
+venv/
+
+# Local data & logs
+output/
+logs/
+ui_runs.db
+
+# Misc
+.DS_Store
+.git
+.gitignore
+.idea/
+.vscode/

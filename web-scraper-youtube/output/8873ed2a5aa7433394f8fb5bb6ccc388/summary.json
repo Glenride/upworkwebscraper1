@@ -1,0 +1,14 @@
+{
+  "success_count": 0,
+  "failure_count": 1,
+  "items": [
+    {
+      "url": "https://www.walmart.com/ip/PETSCOSSET-Outdoor-Cat-House-Weatherproof-Wooden-Cat-Shelter-with-Openable-Roof-for-Small-Animals/17186706535?athAsset=eyJhdGhjcGlkIjoiMTcxODY3MDY1MzUiLCJhdGhzdGlkIjoiQ1MwMjAiLCJhdGhhbmNpZCI6Ikl0ZW1DYXJvdXNlbCIsImF0aHJrIjowLjB9&athena=true",
+      "status": "failed",
+      "screenshot_path": null,
+      "text_path": null,
+      "text_excerpt": null,
+      "error": "Page.goto: net::ERR_PROXY_CONNECTION_FAILED at https://www.walmart.com/ip/PETSCOSSET-Outdoor-Cat-House-Weatherproof-Wooden-Cat-Shelter-with-Openable-Roof-for-Small-Animals/17186706535?athAsset=eyJhdGhjcGlkIjoiMTcxODY3MDY1MzUiLCJhdGhzdGlkIjoiQ1MwMjAiLCJhdGhhbmNpZCI6Ikl0ZW1DYXJvdXNlbCIsImF0aHJrIjowLjB9&athena=true\nCall log:\n  - navigating to \"https://www.walmart.com/ip/PETSCOSSET-Outdoor-Cat-House-Weatherproof-Wooden-Cat-Shelter-with-Openable-Roof-for-Small-Animals/17186706535?athAsset=eyJhdGhjcGlkIjoiMTcxODY3MDY1MzUiLCJhdGhzdGlkIjoiQ1MwMjAiLCJhdGhhbmNpZCI6Ikl0ZW1DYXJvdXNlbCIsImF0aHJrIjowLjB9&athena=true\", waiting until \"domcontentloaded\"\n"
+    }
+  ]
+}

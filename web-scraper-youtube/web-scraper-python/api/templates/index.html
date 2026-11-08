@@ -1,0 +1,1070 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cafe24 Scraper UI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+      * {
+        box-sizing: border-box;
+      }
+      
+      body {
+        margin: 0;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+        background: #F7F8F9;
+        color: #172B4D;
+        line-height: 1.5;
+      }
+      
+      header {
+        background: #0052CC;
+        color: white;
+        padding: 2rem 2rem 3rem;
+        box-shadow: 0 1px 1px rgba(9, 30, 66, 0.25);
+      }
+      
+      header h1 {
+        margin: 0 0 0.5rem 0;
+        font-size: 1.75rem;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+      }
+      
+      header p {
+        margin: 0;
+        opacity: 0.9;
+        font-size: 0.95rem;
+        max-width: 700px;
+      }
+      
+      main {
+        max-width: 1200px;
+        margin: -2rem auto 3rem;
+        padding: 0 2rem;
+      }
+
+      .nav-tabs {
+        display: inline-flex;
+        gap: 0.75rem;
+        margin-top: 1.5rem;
+      }
+
+      .nav-tabs button {
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        color: white;
+        font-weight: 500;
+        padding: 0.5rem 1rem;
+        border-radius: 999px;
+        cursor: pointer;
+        transition: background 0.2s ease;
+      }
+
+      .nav-tabs button[aria-pressed="true"],
+      .nav-tabs button:hover {
+        background: rgba(255, 255, 255, 0.35);
+      }
+      
+      section {
+        background: white;
+        border-radius: 3px;
+        box-shadow: 0 1px 1px rgba(9, 30, 66, 0.25);
+        padding: 2rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      h2 {
+        margin: 0 0 1.5rem 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #172B4D;
+      }
+      
+      fieldset {
+        border: 1px solid #DFE1E6;
+        border-radius: 3px;
+        padding: 1rem;
+        margin-bottom: 1.5rem;
+      }
+      
+      legend {
+        font-weight: 600;
+        color: #5E6C84;
+        font-size: 0.85rem;
+        text-transform: uppercase;
+        letter-spacing: 0.03em;
+        padding: 0 0.5rem;
+      }
+      
+      label {
+        display: block;
+        margin-bottom: 0.75rem;
+        font-size: 0.95rem;
+        color: #172B4D;
+        cursor: pointer;
+      }
+      
+      input[type="radio"] {
+        margin-right: 0.5rem;
+        cursor: pointer;
+      }
+      
+      input[type="file"] {
+        display: block;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        font-size: 0.9rem;
+        border: 2px dashed #DFE1E6;
+        border-radius: 3px;
+        width: 100%;
+        background: #FAFBFC;
+      }
+      
+      button[type="submit"], 
+      a[role="button"], 
+      button[data-action="preview"] {
+        background: #0052CC;
+        color: white;
+        border: none;
+        border-radius: 3px;
+        padding: 0.5rem 1rem;
+        font-weight: 500;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: background 0.2s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+      
+      button[type="submit"]:hover,
+      a[role="button"]:hover,
+      button[data-action="preview"]:hover {
+        background: #0065FF;
+      }
+      
+      button[type="submit"]:active,
+      a[role="button"]:active,
+      button[data-action="preview"]:active {
+        background: #0747A6;
+      }
+      
+      .runs-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0;
+        font-size: 0.9rem;
+      }
+      
+      .runs-table thead {
+        background: #FAFBFC;
+      }
+      
+      .runs-table th {
+        text-align: left;
+        padding: 0.75rem 1rem;
+        font-weight: 600;
+        color: #5E6C84;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.04em;
+        border-bottom: 2px solid #DFE1E6;
+      }
+      
+      .runs-table td {
+        padding: 1rem;
+        border-bottom: 1px solid #EBECF0;
+        vertical-align: top;
+      }
+      
+      .runs-table tr:hover {
+        background: #F4F5F7;
+      }
+      
+      .status-pill {
+        display: inline-block;
+        padding: 0.125rem 0.5rem;
+        border-radius: 3px;
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+      
+      .status-queued {
+        background: #DFE1E6;
+        color: #5E6C84;
+      }
+      
+      .status-running {
+        background: #FFF0B3;
+        color: #974F0C;
+      }
+      
+      .status-succeeded {
+        background: #E3FCEF;
+        color: #006644;
+      }
+      
+      .status-failed {
+        background: #FFEBE6;
+        color: #BF2600;
+      }
+      
+      .download-links {
+        display: flex;
+        gap: 0.75rem;
+        flex-wrap: wrap;
+        align-items: center;
+      }
+      
+      .log-link {
+        color: #0052CC;
+        text-decoration: none;
+        font-size: 0.9rem;
+        font-weight: 500;
+      }
+      
+      .log-link:hover {
+        text-decoration: underline;
+        color: #0065FF;
+      }
+      
+      .preview {
+        margin-top: 0.75rem;
+      }
+      
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        background: rgba(9, 30, 66, 0.54);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        z-index: 1000;
+      }
+      
+      .modal-backdrop[hidden] {
+        display: none;
+      }
+      
+      .modal {
+        background: white;
+        border-radius: 3px;
+        box-shadow: 0 20px 32px -8px rgba(9, 30, 66, 0.3);
+        width: min(900px, 100%);
+        max-height: 90vh;
+        display: flex;
+        flex-direction: column;
+      }
+      
+      .modal header {
+        padding: 1.5rem;
+        border-bottom: 2px solid #EBECF0;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+      
+      .modal header h3 {
+        margin: 0;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #172B4D;
+      }
+      
+      .modal header button {
+        background: transparent;
+        border: none;
+        font-size: 1.5rem;
+        color: #5E6C84;
+        cursor: pointer;
+        line-height: 1;
+        padding: 0.25rem;
+        border-radius: 3px;
+      }
+      
+      .modal header button:hover {
+        background: #F4F5F7;
+        color: #172B4D;
+      }
+      
+      .modal-body {
+        padding: 1.5rem;
+        overflow-y: auto;
+      }
+      
+      .preview-card {
+        border: 1px solid #DFE1E6;
+        border-radius: 3px;
+        padding: 1.25rem;
+        margin-bottom: 1rem;
+        background: white;
+        box-shadow: 0 1px 1px rgba(9, 30, 66, 0.08);
+      }
+      
+      .preview-card h4 {
+        margin: 0 0 0.5rem 0;
+        color: #172B4D;
+        font-weight: 600;
+      }
+      
+      .preview-card details {
+        margin-top: 0.75rem;
+      }
+      
+      .preview-card summary {
+        cursor: pointer;
+        color: #0052CC;
+        font-weight: 500;
+        font-size: 0.9rem;
+        padding: 0.25rem 0;
+      }
+      
+      .preview-card summary:hover {
+        color: #0065FF;
+      }
+
+      .preview-card img {
+        display: block;
+        max-width: 100%;
+        border-radius: 3px;
+        border: 1px solid #DFE1E6;
+        margin: 0.75rem 0;
+        box-shadow: 0 1px 1px rgba(9, 30, 66, 0.08);
+      }
+
+      .preview-card pre {
+        background: #FAFBFC;
+        border: 1px solid #DFE1E6;
+        border-radius: 3px;
+        padding: 0.75rem;
+        overflow-x: auto;
+        max-height: 300px;
+        margin-top: 0.75rem;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+
+      .preview-card details[data-error-details] {
+        margin-top: 0.75rem;
+      }
+
+      .preview-card details[data-error-details] summary {
+        color: #DE350B;
+      }
+      
+      details[open] summary {
+        margin-bottom: 0.75rem;
+      }
+      
+      .status-pulse {
+        animation: pulse 1.2s ease-in-out infinite;
+      }
+      
+      @keyframes pulse {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0.5; }
+      }
+      
+      tr.flash {
+        animation: flashRow 1.5s ease-in-out 2;
+      }
+      
+      @keyframes flashRow {
+        0% { background-color: #E3FCEF; }
+        100% { background-color: transparent; }
+      }
+      
+      .timestamp {
+        font-size: 0.85rem;
+        color: #6B778C;
+      }
+      
+      .error-text {
+        margin-top: 0.75rem;
+        color: #BF2600;
+        font-size: 0.9rem;
+      }
+      
+      [data-empty-state] {
+        text-align: center;
+        padding: 3rem;
+        color: #6B778C;
+      }
+
+      [data-view] {
+        display: none;
+      }
+
+      [data-view].is-active {
+        display: block;
+      }
+      
+      strong {
+        font-weight: 600;
+        color: #172B4D;
+      }
+      
+      pre {
+        background: #F4F5F7;
+        padding: 0.75rem;
+        border-radius: 3px;
+        overflow-x: auto;
+        font-size: 0.85rem;
+        color: #172B4D;
+        border: 1px solid #DFE1E6;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>Scraper Control Panel</h1>
+      <p>Launch data scrapes or visual QA jobs, monitor progress, and download deliverables.</p>
+      <div class="nav-tabs" role="tablist" aria-label="Scraper modes">
+        <button type="button" data-tab="cafe24" aria-pressed="true">Cafe24 Data Pipeline</button>
+        <button type="button" data-tab="visual">Visual QA (Screenshots & Text)</button>
+      </div>
+    </header>
+
+    <main>
+      <section data-view="cafe24" class="is-active" aria-live="polite">
+        <h2>Start a Run</h2>
+        <form action="/runs" method="post" enctype="multipart/form-data">
+          <fieldset>
+            <legend>Choose input source</legend>
+            <label>
+              <input type="radio" name="use_default" value="default" checked />
+              Use server CSV ({{ default_input }})
+            </label>
+            <label>
+              <input type="radio" name="use_default" value="upload" />
+              Upload CSV
+            </label>
+            <input type="file" name="upload" accept=".csv" />
+          </fieldset>
+          <button type="submit">Start Run</button>
+        </form>
+      </section>
+
+      <section data-view="cafe24" class="is-active" aria-live="polite">
+        <h2>Recent Runs</h2>
+        <table class="runs-table" {% if not runs %}hidden{% endif %}>
+          <thead>
+            <tr>
+              <th>Run ID</th>
+              <th>Status</th>
+              <th>Input File</th>
+              <th>Artifacts</th>
+              <th>Last Updated</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for run in runs %}
+            <tr data-run-id="{{ run.id }}" data-status="{{ run.status.value }}">
+              <td>
+                <strong>{{ run.id }}</strong>
+                <div class="timestamp">{{ run.created_at.strftime("%Y-%m-%d %H:%M:%S") }} UTC</div>
+              </td>
+              <td>
+                <span class="status-pill status-{{ run.status.value }}{% if run.status.value == 'running' %} status-pulse{% endif %}">{{ run.status.value }}</span>
+                {% if run.error %}
+                <details{% if run.status.value == 'failed' %} open{% endif %}>
+                  <summary>View Error</summary>
+                  <pre>{{ run.error }}</pre>
+                </details>
+                {% endif %}
+              </td>
+              <td>
+                <div>{{ run.input_filename }}</div>
+              </td>
+              <td>
+                <div class="download-links">
+                  {% if run.archive_path and run.status == run.status.SUCCEEDED %}
+                  <a href="/runs/{{ run.id }}/download" role="button">Download Zip</a>
+                  {% endif %}
+                  {% if run.log_path %}
+                  <a href="/runs/{{ run.id }}/log" class="log-link">View Log</a>
+                  {% endif %}
+                </div>
+                {% if run.status == run.status.SUCCEEDED %}
+                <div class="preview" data-preview="{{ run.id }}">
+                  <button type="button" data-action="preview" data-run-id="{{ run.id }}">View Preview</button>
+                </div>
+                {% elif run.status == run.status.FAILED and run.error %}
+                <p class="error-text">{{ run.error }}</p>
+                {% endif %}
+              </td>
+              <td>
+                <div class="timestamp">{{ run.updated_at.strftime("%Y-%m-%d %H:%M:%S") }} UTC</div>
+              </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+        <p data-empty-state {% if runs %}hidden{% endif %}>No runs yet. Kick off the first scrape above.</p>
+      </section>
+
+      <section data-view="visual" aria-live="polite">
+        <h2>Visual QA Job</h2>
+        <p class="timestamp">Capture full-page screenshots and extract on-page text from any target URLs. Configure your run below.</p>
+
+        <form action="/visual/runs" method="post" enctype="multipart/form-data" data-visual-form>
+          <fieldset>
+            <legend>Choose input source</legend>
+            <label>
+              <input type="radio" name="use_textarea" value="true" checked data-visual-mode="textarea" />
+              Paste URLs
+            </label>
+            <textarea id="visual-urls" name="urls_text" rows="6" placeholder="https://example.com/product-1"></textarea>
+
+            <label>
+              <input type="radio" name="use_textarea" value="false" data-visual-mode="upload" />
+              Upload CSV
+            </label>
+            <input id="visual-upload" type="file" name="upload" accept=".csv" disabled />
+          </fieldset>
+
+          <fieldset>
+            <legend>Batch settings</legend>
+            <label>
+              <span>Max URLs per run</span>
+              <select name="max_urls" data-visual-max>
+                <option value="10" {% if visual_default_max == 10 %}selected{% endif %}>10</option>
+                <option value="25" {% if visual_default_max == 25 %}selected{% endif %}>25</option>
+                <option value="50" {% if visual_default_max == 50 %}selected{% endif %}>50</option>
+                <option value="100" {% if visual_default_max == 100 %}selected{% endif %}>100</option>
+              </select>
+            </label>
+          </fieldset>
+
+          <button type="submit">Start Visual QA</button>
+        </form>
+      </section>
+
+      <section data-view="visual" aria-live="polite">
+        <h2>Recent Visual QA Runs</h2>
+        <table class="runs-table" hidden data-visual-table>
+          <thead>
+            <tr>
+              <th>Run ID</th>
+              <th>Status</th>
+              <th>Source</th>
+              <th>Artifacts</th>
+              <th>Last Updated</th>
+            </tr>
+          </thead>
+          <tbody data-visual-tbody></tbody>
+        </table>
+        <p data-empty-visual-state>No visual QA runs yet.</p>
+      </section>
+    </main>
+
+    <script>
+      const RUNNING_POLL_MS = 2000;
+      const IDLE_POLL_MS = 8000;
+      const runStatusCache = new Map();
+      let pollTimeoutId = null;
+
+      const VISUAL_RUNNING_POLL_MS = 3000;
+      const VISUAL_IDLE_POLL_MS = 10000;
+      const visualStatusCache = new Map();
+      let visualPollTimeoutId = null;
+
+      function escapeHtml(value) {
+        return String(value)
+          .replace(/&/g, '&amp;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+          .replace(/"/g, '&quot;')
+          .replace(/'/g, '&#39;');
+      }
+
+      async function pollRuns() {
+        try {
+          const response = await fetch('/runs', {
+            headers: {
+              'Accept': 'application/json'
+            },
+            cache: 'no-store'
+          });
+          if (!response.ok) {
+            throw new Error('Failed to fetch runs');
+          }
+          const runs = await response.json();
+          const { hasRunning, completed } = updateRunTable(runs);
+          completed.forEach(highlightCompletion);
+          scheduleNextPoll(hasRunning);
+        } catch (error) {
+          console.error('Run polling failed', error);
+          scheduleNextPoll(true);
+        }
+      }
+
+      function scheduleNextPoll(hasRunning) {
+        if (pollTimeoutId) {
+          clearTimeout(pollTimeoutId);
+        }
+        pollTimeoutId = setTimeout(pollRuns, hasRunning ? RUNNING_POLL_MS : IDLE_POLL_MS);
+      }
+
+      async function pollVisualRuns() {
+        const visualTable = document.querySelector('[data-visual-table]');
+        if (!visualTable || visualTable.dataset.disabled === 'true') {
+          return;
+        }
+
+        try {
+          const response = await fetch('/visual/runs', {
+            headers: { 'Accept': 'application/json' },
+            cache: 'no-store'
+          });
+          if (!response.ok) {
+            throw new Error('Failed to fetch visual runs');
+          }
+          const runs = await response.json();
+          const { hasRunning } = updateVisualTable(runs);
+          scheduleNextVisualPoll(hasRunning);
+        } catch (error) {
+          console.error('Visual run polling failed', error);
+          scheduleNextVisualPoll(true);
+        }
+      }
+
+      function scheduleNextVisualPoll(hasRunning) {
+        if (visualPollTimeoutId) {
+          clearTimeout(visualPollTimeoutId);
+        }
+        visualPollTimeoutId = setTimeout(pollVisualRuns, hasRunning ? VISUAL_RUNNING_POLL_MS : VISUAL_IDLE_POLL_MS);
+      }
+
+      function updateRunTable(runs) {
+        const table = document.querySelector('.runs-table');
+        const tbody = table?.querySelector('tbody');
+        const emptyState = document.querySelector('[data-empty-state]');
+
+        if (!table || !tbody) {
+          return { hasRunning: false, completed: [] };
+        }
+
+        const seenIds = new Set();
+        let hasRunning = false;
+        const completed = [];
+
+        runs.forEach((run) => {
+          seenIds.add(run.id);
+          const previousStatus = runStatusCache.get(run.id);
+          if (previousStatus && previousStatus !== run.status && (run.status === 'succeeded' || run.status === 'failed')) {
+            completed.push(run.id);
+          }
+          runStatusCache.set(run.id, run.status);
+
+          const statusClass = `status-${run.status}`;
+          const statusExtra = run.status === 'running' ? ' status-pulse' : '';
+          const row = tbody.querySelector(`tr[data-run-id="${run.id}"]`) || document.createElement('tr');
+          row.dataset.runId = run.id;
+          row.dataset.status = run.status;
+
+          row.innerHTML = `
+            <td>
+              <strong>${run.id}</strong>
+              <div class="timestamp">${formatTimestamp(run.created_at)}</div>
+            </td>
+            <td>
+              <span class="status-pill ${statusClass}${statusExtra}">${run.status}</span>
+              ${run.error ? `<details${run.status === 'failed' ? ' open' : ''}><summary>View Error</summary><pre>${run.error}</pre></details>` : ''}
+            </td>
+            <td>
+              <div>${run.input_filename}</div>
+            </td>
+            <td>
+              <div class="download-links">
+                ${(run.status === 'succeeded' && run.archive_path)
+                  ? `<a href="/runs/${run.id}/download" role="button">Download Zip</a>`
+                  : ''}
+                ${run.log_path ? `<a href="/runs/${run.id}/log" class="log-link">View Log</a>` : ''}
+              </div>
+              ${run.status === 'succeeded'
+                ? `<div class="preview" data-preview="${run.id}">
+                     <button type="button" data-action="preview" data-run-id="${run.id}">View Preview</button>
+                   </div>`
+                : run.status === 'failed' && run.error
+                  ? `<p class="error-text">${run.error}</p>`
+                  : ''}
+            </td>
+            <td>
+              <div class="timestamp">${formatTimestamp(run.updated_at)}</div>
+            </td>
+          `;
+
+          if (!row.parentElement) {
+            tbody.appendChild(row);
+          }
+
+          if (run.status === 'running' || run.status === 'queued') {
+            hasRunning = true;
+          }
+        });
+
+        tbody.querySelectorAll('tr').forEach((row) => {
+          if (!seenIds.has(row.dataset.runId)) {
+            row.remove();
+          }
+        });
+
+        [...runStatusCache.keys()].forEach((runId) => {
+          if (!seenIds.has(runId)) {
+            runStatusCache.delete(runId);
+          }
+        });
+
+        if (emptyState) {
+          if (runs.length === 0) {
+            emptyState.hidden = false;
+            table.hidden = true;
+          } else {
+            emptyState.hidden = true;
+            table.hidden = false;
+          }
+        }
+
+        return { hasRunning, completed };
+      }
+
+      function highlightCompletion(runId) {
+        const row = document.querySelector(`tr[data-run-id="${runId}"]`);
+        if (!row) return;
+        row.classList.add('flash');
+        setTimeout(() => row.classList.remove('flash'), 2000);
+
+        if (row.dataset.status === 'failed') {
+          const errorDetails = row.querySelector('details');
+          if (errorDetails) {
+            errorDetails.setAttribute('open', '');
+          }
+        }
+      }
+
+      function formatTimestamp(isoString) {
+        const date = new Date(isoString);
+        return `${date.getUTCFullYear()}-${String(date.getUTCMonth() + 1).padStart(2, '0')}-${String(date.getUTCDate()).padStart(2, '0')} ${String(date.getUTCHours()).padStart(2, '0')}:${String(date.getUTCMinutes()).padStart(2, '0')}:${String(date.getUTCSeconds()).padStart(2, '0')} UTC`;
+      }
+
+      function updateVisualTable(runs) {
+        const table = document.querySelector('[data-visual-table]');
+        const tbody = document.querySelector('[data-visual-tbody]');
+        const emptyState = document.querySelector('[data-empty-visual-state]');
+        if (!table || !tbody) {
+          return { hasRunning: false };
+        }
+
+        const seenIds = new Set();
+        let hasRunning = false;
+
+        runs.forEach((run) => {
+          seenIds.add(run.id);
+          visualStatusCache.set(run.id, run.status);
+
+          const row = tbody.querySelector(`tr[data-visual-id="${run.id}"]`) || document.createElement('tr');
+          row.dataset.visualId = run.id;
+          row.dataset.status = run.status;
+
+          const artifacts = [];
+          if (run.status === 'succeeded' && run.archive_path) {
+            artifacts.push(`<a href="/visual/runs/${run.id}/download" role="button">Deliverables Zip</a>`);
+          }
+          if (run.status === 'succeeded' && run.summary_path) {
+            artifacts.push(`<button type="button" data-action="visual-summary" data-run-id="${run.id}">Summary</button>`);
+          }
+
+          row.innerHTML = `
+            <td><strong>${run.id}</strong><div class="timestamp">${formatTimestamp(run.created_at)}</div></td>
+            <td><span class="status-pill status-${run.status}">${run.status}</span></td>
+            <td>${run.source} (${run.url_count})</td>
+            <td class="visual-artifacts">${artifacts.join(' ') || '<span class="timestamp">Pending...</span>'}</td>
+            <td><div class="timestamp">${formatTimestamp(run.updated_at)}</div></td>
+          `;
+
+          if (!row.parentElement) {
+            tbody.appendChild(row);
+          }
+
+          if (run.status === 'running' || run.status === 'queued') {
+            hasRunning = true;
+          }
+        });
+
+        tbody.querySelectorAll('tr').forEach((row) => {
+          if (!seenIds.has(row.dataset.visualId)) {
+            row.remove();
+          }
+        });
+
+        if (emptyState) {
+          if (runs.length === 0) {
+            emptyState.hidden = false;
+            table.hidden = true;
+          } else {
+            emptyState.hidden = true;
+            table.hidden = false;
+          }
+        }
+
+        return { hasRunning };
+      }
+
+      const modalBackdrop = document.createElement('div');
+      modalBackdrop.className = 'modal-backdrop';
+      modalBackdrop.setAttribute('hidden', '');
+      modalBackdrop.innerHTML = `
+        <div class="modal" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+          <header>
+            <h3 id="modal-title">Run Preview</h3>
+            <button type="button" data-action="close-modal" aria-label="Close preview">×</button>
+          </header>
+          <div class="modal-body">
+            <div class="modal-grid" data-modal-content></div>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(modalBackdrop);
+
+      async function handlePreview(event) {
+        const button = event.target.closest('button[data-action="preview"]');
+        if (!button) return;
+        const runId = button.dataset.runId;
+        const modalContent = modalBackdrop.querySelector('[data-modal-content]');
+        if (!modalContent) return;
+
+        button.disabled = true;
+        button.textContent = 'Loading...';
+
+        try {
+          const response = await fetch(`/runs/${runId}/preview`);
+          if (!response.ok) {
+            throw new Error('Preview unavailable');
+          }
+          const data = await response.json();
+          renderPreview(modalContent, data.records);
+          openModal(`Run Preview - ${runId}`);
+        } catch (error) {
+          modalContent.innerHTML = `<p class="timestamp">${error.message}</p>`;
+          openModal(`Run Preview - ${runId}`);
+        } finally {
+          button.disabled = false;
+          button.textContent = 'View Preview';
+        }
+      }
+
+      function renderPreview(container, records) {
+        if (!records.length) {
+          container.innerHTML = '<p class="timestamp">No preview rows available.</p>';
+          return;
+        }
+
+        container.innerHTML = records
+          .map(
+            (record) => `
+              <div class="preview-card">
+                <h4>${record.title || '(Untitled product)'}</h4>
+                <p class="timestamp">Handle: ${record.handle || 'n/a'}</p>
+                <details open>
+                  <summary>View HTML</summary>
+                  <div>${record.body_html || '<em>No HTML content</em>'}</div>
+                </details>
+              </div>
+            `
+          )
+          .join('');
+      }
+
+      async function handleVisualSummary(event) {
+        const button = event.target.closest('button[data-action="visual-summary"]');
+        if (!button) return;
+        const runId = button.dataset.runId;
+        const modalContent = modalBackdrop.querySelector('[data-modal-content]');
+        if (!modalContent) return;
+
+        button.disabled = true;
+        button.textContent = 'Loading...';
+
+        try {
+          const response = await fetch(`/visual/runs/${runId}/summary`);
+          if (!response.ok) {
+            throw new Error('Summary unavailable');
+          }
+          const data = await response.json();
+          renderVisualSummary(modalContent, runId, data);
+          openModal(`Visual Summary - ${runId}`);
+        } catch (error) {
+          modalContent.innerHTML = `<p class="timestamp">${error.message}</p>`;
+          openModal(`Visual Summary - ${runId}`);
+        } finally {
+          button.disabled = false;
+          button.textContent = 'Summary';
+        }
+      }
+
+      function renderVisualSummary(container, runId, summary) {
+        if (!summary || !summary.items || !summary.items.length) {
+          container.innerHTML = '<p class="timestamp">No summary data available.</p>';
+          return;
+        }
+
+        const itemsHtml = summary.items
+          .map((item, index) => {
+            const encodedScreenshot = item.screenshot_path ? encodeURIComponent(item.screenshot_path) : null;
+            const encodedTextPath = item.text_path ? encodeURIComponent(item.text_path) : null;
+            const screenshotMarkup = encodedScreenshot
+              ? `<figure>
+                   <img src="/visual/runs/${runId}/files/${encodedScreenshot}" alt="Screenshot ${index + 1}" loading="lazy" />
+                   <figcaption class="timestamp">Captured viewport</figcaption>
+                 </figure>`
+              : '<p class="timestamp">No screenshot captured.</p>';
+            const excerpt = item.text_excerpt
+              ? `<pre data-text-preview-id="visual-${index}">${escapeHtml(item.text_excerpt)}</pre>`
+              : '<p class="timestamp" data-text-preview-id="visual-${index}">No text excerpt captured.</p>';
+            const textControls = encodedTextPath
+              ? `<div class="download-links">
+                   <button type="button" data-action="visual-text" data-run-id="${runId}" data-preview-id="visual-${index}" data-text-path="${encodedTextPath}">View full text</button>
+                   <a href="/visual/runs/${runId}/files/${encodedTextPath}" target="_blank" rel="noopener">Download text file</a>
+                 </div>`
+              : '';
+            const urlLink = item.url
+              ? `<a href="${escapeHtml(item.url)}" target="_blank" rel="noopener">${escapeHtml(item.url)}</a>`
+              : '<span class="timestamp">URL unavailable</span>';
+            const errorDetails = item.error
+              ? `<details data-error-details>
+                   <summary>Error details</summary>
+                   <pre>${escapeHtml(item.error)}</pre>
+                 </details>`
+              : '';
+            return `
+              <article class="preview-card">
+                <h4>Item ${index + 1}</h4>
+                <p class="timestamp">URL: ${urlLink}</p>
+                <p class="timestamp">Status: ${escapeHtml(item.status || 'unknown')}</p>
+                ${screenshotMarkup}
+                ${excerpt}
+                ${textControls}
+                ${errorDetails}
+              </article>
+            `;
+          })
+          .join('');
+
+        container.innerHTML = `
+          <div class="preview-card">
+            <p><strong>Successes:</strong> ${summary.success_count}</p>
+            <p><strong>Failures:</strong> ${summary.failure_count}</p>
+          </div>
+          ${itemsHtml}
+        `;
+      }
+
+      async function handleVisualText(event) {
+        const button = event.target.closest('button[data-action="visual-text"]');
+        if (!button) return;
+        const runId = button.dataset.runId;
+        const textPath = button.dataset.textPath;
+        const previewId = button.dataset.previewId;
+        if (!runId || !textPath || !previewId) {
+          return;
+        }
+
+        const previewTarget = modalBackdrop.querySelector(`[data-text-preview-id="${CSS.escape(previewId)}"]`);
+        if (!previewTarget) {
+          return;
+        }
+
+        button.disabled = true;
+        button.textContent = 'Loading...';
+
+        try {
+          const response = await fetch(`/visual/runs/${runId}/files/${textPath}`);
+          if (!response.ok) {
+            throw new Error('Unable to load text');
+          }
+          const text = await response.text();
+          previewTarget.outerHTML = `<pre data-text-preview-id="${previewId}">${escapeHtml(text)}</pre>`;
+        } catch (error) {
+          previewTarget.outerHTML = `<p class="timestamp" data-text-preview-id="${previewId}">${escapeHtml(error.message)}</p>`;
+        } finally {
+          button.disabled = false;
+          button.textContent = 'View full text';
+        }
+      }
+
+      function openModal(titleText) {
+        const title = modalBackdrop.querySelector('#modal-title');
+        if (title) {
+          title.textContent = titleText;
+        }
+        modalBackdrop.removeAttribute('hidden');
+        document.body.style.overflow = 'hidden';
+      }
+
+      function closeModal() {
+        modalBackdrop.setAttribute('hidden', '');
+        document.body.style.overflow = '';
+      }
+
+      modalBackdrop.addEventListener('click', (event) => {
+        if (event.target === modalBackdrop || event.target.matches('[data-action="close-modal"]')) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && !modalBackdrop.hasAttribute('hidden')) {
+          closeModal();
+        }
+      });
+
+      document.addEventListener('click', handlePreview);
+      document.addEventListener('click', handleVisualSummary);
+      document.addEventListener('click', handleVisualText);
+      document.addEventListener('visibilitychange', () => {
+        if (!document.hidden) {
+          pollRuns();
+          pollVisualRuns();
+        }
+      });
+      pollRuns();
+      pollVisualRuns();
+
+      // Tab interactions
+      const tabButtons = Array.from(document.querySelectorAll('[data-tab]'));
+      const views = Array.from(document.querySelectorAll('[data-view]'));
+
+      function setActiveTab(tabId) {
+        tabButtons.forEach((button) => {
+          const isActive = button.dataset.tab === tabId;
+          button.setAttribute('aria-pressed', String(isActive));
+        });
+        views.forEach((view) => {
+          view.classList.toggle('is-active', view.dataset.view === tabId);
+        });
+      }
+
+      tabButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          setActiveTab(button.dataset.tab);
+          if (button.dataset.tab === 'visual') {
+            pollVisualRuns();
+          }
+        });
+      });
+
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('visual') === '1') {
+        setActiveTab('visual');
+        pollVisualRuns();
+      }
+    </script>
+  </body>
+</html>

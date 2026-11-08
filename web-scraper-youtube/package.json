@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "@workos-inc/node": "^7.72.0"
+  }
+}
